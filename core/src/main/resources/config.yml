@@ -6,10 +6,17 @@ key-file-name: key.pem
 # Floodgate prepends a prefix to bedrock usernames to avoid conflicts
 # However, certain conflicts can cause issues with some plugins so this prefix is configurable using the property below
 # It is recommended to use a prefix that does not contain alphanumerical to avoid the possibility of duplicate usernames.
-username-prefix: "."
+username-prefix: ""
 
 # Should spaces be replaced with '_' in bedrock usernames?
 replace-spaces: true
+
+# In offline mode (server online-mode=false) give the Bedrock player the same offline-mode UUID
+# that a Java player with an identical username would get, so they share the same player data
+# (inventory, ender chest, stats, permissions, etc.).
+# This ONLY works when the server runs with online-mode=false. Combined with an empty
+# username-prefix this effectively shares one account between Java and Bedrock by username.
+use-offline-uuid: true
 
 # The default locale for Floodgate. By default, Floodgate uses the system locale
 # default-locale: en_US

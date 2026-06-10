@@ -43,7 +43,6 @@ import org.geysermc.floodgate.util.DeviceOs;
 import org.geysermc.floodgate.util.InputMode;
 import org.geysermc.floodgate.util.LinkedPlayer;
 import org.geysermc.floodgate.util.UiProfile;
-import org.geysermc.floodgate.util.Utils;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -74,7 +73,9 @@ public final class FloodgatePlayerImpl implements FloodgatePlayer {
     static FloodgatePlayerImpl from(BedrockData data, HandshakeData handshakeData) {
         FloodgateApi api = FloodgateApi.getInstance();
 
-        UUID javaUniqueId = Utils.getJavaUuid(data.getXuid());
+        // Reuse the UUID already computed during the handshake so the default (non-linked) UUID
+        // stays consistent with HandshakeDataImpl (which honors the use-offline-uuid option).
+        UUID javaUniqueId = handshakeData.getJavaUniqueId();
 
         DeviceOs deviceOs = DeviceOs.fromId(data.getDeviceOs());
         UiProfile uiProfile = UiProfile.fromId(data.getUiProfile());

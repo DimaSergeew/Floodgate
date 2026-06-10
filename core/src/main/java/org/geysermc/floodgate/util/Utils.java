@@ -95,6 +95,19 @@ public class Utils {
         return getJavaUuid(Long.parseLong(xuid));
     }
 
+    /**
+     * Computes the same UUID an offline-mode (online-mode=false) Java server would assign to a
+     * player with the given username. Used to give a Bedrock player the same UUID (and therefore
+     * the same player data) as the Java player with an identical username.
+     *
+     * @param javaUsername the (already prefixed/sanitized) Java username
+     * @return the offline-mode UUID for that username
+     */
+    public static UUID getOfflineUuid(String javaUsername) {
+        return UUID.nameUUIDFromBytes(
+                ("OfflinePlayer:" + javaUsername).getBytes(StandardCharsets.UTF_8));
+    }
+
     public static boolean isUniquePrefix(String prefix) {
         return !NON_UNIQUE_PREFIX.matcher(prefix).matches();
     }
