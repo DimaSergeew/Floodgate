@@ -109,6 +109,16 @@ final class SkinUploadSocket extends WebSocketClient {
             case SKIN_UPLOADED:
                 String xuid = message.get("xuid").getAsString();
                 FloodgatePlayer player = api.getPlayer(Utils.getJavaUuid(xuid));
+                if (player == null) {
+                    // With use-offline-uuid enabled the player isn't stored under their xuid-based
+                    // Floodgate UUID, so fall back to matching the connected player by xuid.
+                    for (FloodgatePlayer connected : api.getPlayers()) {
+                        if (xuid.equals(connected.getXuid())) {
+                            player = connected;
+                            break;
+                        }
+                    }
+                }
                 if (player != null) {
                     if (!message.get("success").getAsBoolean()) {
                         logger.info("Failed to upload skin for {} ({})", xuid,
